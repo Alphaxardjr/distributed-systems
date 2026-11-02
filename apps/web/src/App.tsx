@@ -1,19 +1,31 @@
-import { Button } from "@workspace/ui/components/button"
+
+import { useAuth } from "./contexts/AuthContext"
+import { logoutUser } from "./services/authService"
+import { LoginForm } from "./components/login-form"
 
 export function App() {
+  const { user, loading } = useAuth()
+
+  if (loading) {
+    return <p>Checking authentication...</p>
+  }
+
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
+    <main className="flex min-h-screen flex-col items-center justify-center gap-4 p-4">
+      {user ? (
+        <>
+          <p>Logged in as: {user.email}</p>
+          <p>User ID: {user.uid}</p>
+
+          <button onClick={() => void logoutUser()}>
+            Logout
+          </button>
+        </>
+      ) : (
+        <div className="w-full max-w-md">
+          <LoginForm />
         </div>
-        <div className="text-muted-foreground font-mono text-xs">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
-      </div>
-    </div>
+      )}
+    </main>
   )
 }
