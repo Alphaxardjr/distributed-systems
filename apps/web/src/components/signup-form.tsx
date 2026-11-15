@@ -1,4 +1,3 @@
-
 import { useState, type ComponentProps, type FormEvent } from "react"
 import { cn } from "cn"
 
@@ -22,8 +21,9 @@ import { Input } from "@workspace/ui/components/input"
 
 export function SignupForm({
   className,
+  onRegistering,
   ...props
-}: ComponentProps<"div">) {
+}: ComponentProps<"div"> & { onRegistering: (value: boolean) => void }) {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -51,13 +51,10 @@ export function SignupForm({
     }
 
     setLoading(true)
+    onRegistering(true)
 
     try {
-      const user = await registerUser(
-        name.trim(),
-        email.trim(),
-        password
-      )
+      const user = await registerUser(name.trim(), email.trim(), password)
 
       console.log("Registered:", user.uid)
     } catch (err: unknown) {
@@ -86,19 +83,16 @@ export function SignupForm({
       }
     } finally {
       setLoading(false)
+      onRegistering(false)
     }
   }
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
+      <Card className="auth-card">
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">
-            Create your Chatly account
-          </CardTitle>
-          <CardDescription>
-            Enter your details to get started
-          </CardDescription>
+          <CardTitle className="text-xl">Create your Chatly account</CardTitle>
+          <CardDescription>Enter your details to get started</CardDescription>
         </CardHeader>
 
         <CardContent>
@@ -107,12 +101,13 @@ export function SignupForm({
               <Field>
                 <FieldLabel htmlFor="name">Full Name</FieldLabel>
                 <Input
+                  autoComplete="name"
                   id="name"
                   type="text"
-                  placeholder="John Doe"
+                  placeholder="Your display name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  maxLength={100}
+                  maxLength={50}
                   required
                 />
               </Field>
@@ -120,9 +115,10 @@ export function SignupForm({
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input
+                  autoComplete="email"
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="you@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -132,6 +128,8 @@ export function SignupForm({
               <Field>
                 <FieldLabel htmlFor="password">Password</FieldLabel>
                 <Input
+                  placeholder="Enter your password"
+                  autoComplete="new-password"
                   id="password"
                   type="password"
                   value={password}
@@ -146,6 +144,8 @@ export function SignupForm({
                   Confirm Password
                 </FieldLabel>
                 <Input
+                  autoComplete="new-password"
+                  placeholder="Repeat your password"
                   id="confirm-password"
                   type="password"
                   value={confirmPassword}
@@ -167,7 +167,7 @@ export function SignupForm({
 
                 <FieldDescription className="text-center">
                   Already have an account?{" "}
-                  <a href="/login" className="underline">
+                  <a href="#/login" className="underline">
                     Sign in
                   </a>
                 </FieldDescription>

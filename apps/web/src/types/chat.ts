@@ -1,4 +1,3 @@
-
 import type { Timestamp } from "firebase/firestore"
 
 // USER PROFILES
@@ -42,12 +41,7 @@ export interface ChatAttachment {
 // MESSAGES
 
 export type MessageType =
-  | "text"
-  | "image"
-  | "gif"
-  | "sticker"
-  | "video"
-  | "file"
+  "text" | "image" | "gif" | "sticker" | "video" | "file"
 
 export interface ChatMessage {
   id: string
@@ -55,6 +49,8 @@ export interface ChatMessage {
   type: MessageType
   text: string
   attachment?: ChatAttachment
+  editedAt?: Timestamp | null
+  deletedAt?: Timestamp | null
   replyTo?: string | null
   createdAt: Timestamp
 }

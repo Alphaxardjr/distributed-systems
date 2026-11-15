@@ -8,7 +8,7 @@ import {
   serverTimestamp,
 } from "firebase/firestore"
 
-import { auth, db } from "../../firebase/config"
+import { auth, db } from "../lib/firebase"
 
 // Create or retrieve a private conversation
 export async function createDirectConversation(

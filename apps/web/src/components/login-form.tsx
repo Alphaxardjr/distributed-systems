@@ -1,3 +1,4 @@
+import { errorText } from "./chat/feedback"
 
 import { useState, type ComponentProps, type FormEvent } from "react"
 import { cn } from "cn"
@@ -20,10 +21,7 @@ import {
 } from "@workspace/ui/components/field"
 import { Input } from "@workspace/ui/components/input"
 
-export function LoginForm({
-  className,
-  ...props
-}: ComponentProps<"div">) {
+export function LoginForm({ className, ...props }: ComponentProps<"div">) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
@@ -35,16 +33,14 @@ export function LoginForm({
     setLoading(true)
 
     try {
-      const user = await loginUser(email.trim(), password)
-
-      console.log("Logged in:", user.uid)
-
-      // Later, AuthContext and routing will handle
-      // navigation to the chat page.
+      await loginUser(email.trim(), password)
     } catch (err: unknown) {
-      console.error("Login error:", err)
-
-      setError("Invalid email or password. Please try again.")
+      const message = errorText(err)
+      setError(
+        message.includes("auth/invalid-credential")
+          ? "Invalid email or password. Please try again."
+          : message
+      )
     } finally {
       setLoading(false)
     }
@@ -52,7 +48,7 @@ export function LoginForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
+      <Card className="auth-card">
         <CardHeader>
           <CardTitle>Welcome back to Chatly</CardTitle>
           <CardDescription>
@@ -68,7 +64,7 @@ export function LoginForm({
                 <Input
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="you@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   autoComplete="email"
@@ -78,18 +74,11 @@ export function LoginForm({
 
               <Field>
                 <div className="flex items-center">
-                  <FieldLabel htmlFor="password">
-                    Password
-                  </FieldLabel>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
+                  <FieldLabel htmlFor="password">Password</FieldLabel>
                 </div>
 
                 <Input
+                  placeholder="Enter your password"
                   id="password"
                   type="password"
                   value={password}
@@ -111,8 +100,7 @@ export function LoginForm({
                 </Button>
 
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account?{" "}
-                  <a href="#">Sign up</a>
+                  Don&apos;t have an account? <a href="#/signup">Sign up</a>
                 </FieldDescription>
               </Field>
             </FieldGroup>
