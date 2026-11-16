@@ -1,3 +1,4 @@
+import { uiCopy } from "./ui-copy"
 import { errorText } from "./chat/feedback"
 
 import { useState, type ComponentProps, type FormEvent } from "react"
@@ -50,10 +51,8 @@ export function LoginForm({ className, ...props }: ComponentProps<"div">) {
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="auth-card">
         <CardHeader>
-          <CardTitle>Welcome back to Chatly</CardTitle>
-          <CardDescription>
-            Enter your credentials to sign in to your account.
-          </CardDescription>
+          <CardTitle>{uiCopy.loginTitle}</CardTitle>
+          <CardDescription>{uiCopy.loginHint}</CardDescription>
         </CardHeader>
 
         <CardContent>
@@ -96,11 +95,11 @@ export function LoginForm({ className, ...props }: ComponentProps<"div">) {
 
               <Field>
                 <Button type="submit" disabled={loading}>
-                  {loading ? "Signing in..." : "Login"}
+                  {loading ? "Logging in..." : "Log in"}
                 </Button>
 
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account? <a href="#/signup">Sign up</a>
+                  New around here? <a href="#/signup">Create an account</a>
                 </FieldDescription>
               </Field>
             </FieldGroup>

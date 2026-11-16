@@ -1,3 +1,4 @@
+import { uiCopy } from "../ui-copy"
 import { ArrowLeft, Search, Users, MessageCircle, Check, X } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { Button } from "@workspace/ui/components/button"
@@ -82,12 +83,8 @@ export function NewConversation({
           <ArrowLeft size={18} />
           Back to conversations
         </Button>
-        <h1>{group ? "Create a group" : "Start a conversation"}</h1>
-        <p>
-          {group
-            ? "Bring your people together in one place."
-            : "Find someone by their public display name."}
-        </p>
+        <h1>{group ? uiCopy.groupTitle : uiCopy.searchTitle}</h1>
+        <p>{group ? uiCopy.groupHint : uiCopy.searchHint}</p>
       </header>
       <div className="detail-body search-body">
         <div className="conversation-modes" aria-label="Conversation type">
@@ -119,7 +116,7 @@ export function NewConversation({
                 disabled={busy}
                 onChange={(e) => setName(e.target.value)}
                 maxLength={100}
-                placeholder="Give your group a name"
+                placeholder={uiCopy.groupPlaceholder}
               />
             </label>
             <div
@@ -146,7 +143,7 @@ export function NewConversation({
             <p className="field-help">
               {members.length
                 ? `${members.length} selected · you will also be included`
-                : "Search below to select at least one other member."}
+                : uiCopy.noMembers}
             </p>
           </div>
         )}
@@ -157,7 +154,7 @@ export function NewConversation({
             aria-label="Search by display name"
             value={term}
             disabled={busy}
-            placeholder="Search by display name"
+            placeholder={uiCopy.searchPlaceholder}
             onChange={(e) => {
               setTerm(e.target.value)
               setResults([])
@@ -176,7 +173,7 @@ export function NewConversation({
           </Button>
         )}
         <div className="search-results-header">
-          <h2>{group ? "ADD PEOPLE" : "PEOPLE"}</h2>
+          <h2>{group ? uiCopy.groupPeople : "PEOPLE"}</h2>
           {busy && <span role="status">Opening conversation…</span>}
         </div>
         {loading ? (
@@ -190,14 +187,12 @@ export function NewConversation({
             <div className="people-empty">
               <Search size={25} />
               <h3>
-                {term.trim().length >= 2
-                  ? "No matching people"
-                  : "Who would you like to talk to?"}
+                {term.trim().length >= 2 ? uiCopy.noPeople : uiCopy.emptySearch}
               </h3>
               <p>
                 {term.trim().length >= 2
                   ? "Try another display name."
-                  : "Enter at least two characters to find someone."}
+                  : uiCopy.searchMinimum}
               </p>
             </div>
           )

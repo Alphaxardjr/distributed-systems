@@ -1,3 +1,4 @@
+import { uiCopy } from "../ui-copy"
 import {
   MessageCircle,
   Search,
@@ -184,9 +185,7 @@ export function ChatApp({ user }: { user: User }) {
             </div>
           )}
           {!loading && !conversations.length && (
-            <p className="p-2 text-sm">
-              No conversations yet. Search for someone to start chatting.
-            </p>
+            <p className="p-2 text-sm">{uiCopy.noChats}</p>
           )}
           {conversations.map((item) => {
             const recipient =
@@ -332,13 +331,13 @@ export function ChatApp({ user }: { user: User }) {
         ) : (
           <div className="chat-empty m-auto">
             <MessageCircle size={42} className="mx-auto mb-5 text-primary" />
-            <h2>Your conversations, connected.</h2>
+            <h2>{uiCopy.welcome}</h2>
             <p>
               {selected
                 ? "Waiting for the conversation. If access has changed, select another chat."
-                : "Select a conversation or start a new one."}
+                : uiCopy.welcomeHint}
             </p>
-            <Button onClick={() => setScreen("new")}>New conversation</Button>
+            <Button onClick={() => setScreen("new")}>{uiCopy.startChat}</Button>
             {selected && (
               <Button variant="outline" onClick={() => setSelected(null)}>
                 Back to chats

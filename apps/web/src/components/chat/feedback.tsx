@@ -1,3 +1,4 @@
+import { uiCopy } from "../ui-copy"
 export function errorText(error: unknown): string {
   if (import.meta.env.DEV) console.error(error)
   const code =
@@ -7,10 +8,8 @@ export function errorText(error: unknown): string {
   if (code.includes("permission-denied"))
     return "You do not have permission for this action. Check your account or contact support."
   if (code.includes("network") || code.includes("unavailable"))
-    return "Cannot reach the server. Check your connection and try again."
-  return error instanceof Error
-    ? error.message
-    : "Something went wrong. Please try again."
+    return uiCopy.connectionError
+  return error instanceof Error ? error.message : uiCopy.unexpectedError
 }
 export function ErrorNotice({ message }: { message: string }) {
   return message ? (

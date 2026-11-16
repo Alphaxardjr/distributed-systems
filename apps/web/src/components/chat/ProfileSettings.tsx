@@ -1,3 +1,4 @@
+import { uiCopy } from "../ui-copy"
 import { useRef, useState, type FormEvent } from "react"
 import { ArrowLeft, Camera, Trash2 } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
@@ -52,7 +53,7 @@ export function ProfileSettings({
     event.preventDefault()
     void run(
       () => updatePublicProfile({ displayName: name, bio }),
-      "Your profile has been saved.",
+      uiCopy.profileSaved,
       "Saving profile…"
     )
   }
@@ -63,8 +64,8 @@ export function ProfileSettings({
           <ArrowLeft size={18} />
           Back to conversations
         </Button>
-        <h1>Your profile</h1>
-        <p>A little about you, for the people you chat with.</p>
+        <h1>{uiCopy.profileTitle}</h1>
+        <p>{uiCopy.profileHint}</p>
       </header>
       <div className="detail-body profile-body">
         <div className="profile-photo-section">

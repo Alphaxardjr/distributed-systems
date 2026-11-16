@@ -1,3 +1,4 @@
+import { uiCopy } from "../ui-copy"
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { ArrowLeft, Paperclip, Send, X, Smile, Users } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
@@ -343,8 +344,7 @@ export function ConversationView({
             </div>
           ) : !messages.length ? (
             <div className="chat-empty">
-              <h2>Start something good.</h2>
-              <p>Send the first message to say hello.</p>
+              <h2>{uiCopy.noMessages}</h2>
             </div>
           ) : (
             <p className="text-center text-xs text-muted-foreground">
@@ -487,7 +487,7 @@ export function ConversationView({
             ref={composer}
             rows={1}
             aria-label="Message"
-            placeholder="Write a message…"
+            placeholder={uiCopy.composer}
             maxLength={5000}
             disabled={busy}
             value={draft.text}

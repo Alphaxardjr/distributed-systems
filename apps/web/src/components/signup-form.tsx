@@ -1,3 +1,4 @@
+import { uiCopy } from "./ui-copy"
 import { useState, type ComponentProps, type FormEvent } from "react"
 import { cn } from "cn"
 
@@ -91,8 +92,8 @@ export function SignupForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="auth-card">
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">Create your Chatly account</CardTitle>
-          <CardDescription>Enter your details to get started</CardDescription>
+          <CardTitle className="text-xl">{uiCopy.signupTitle}</CardTitle>
+          <CardDescription>{uiCopy.signupHint}</CardDescription>
         </CardHeader>
 
         <CardContent>
@@ -162,13 +163,13 @@ export function SignupForm({
 
               <Field>
                 <Button type="submit" disabled={loading}>
-                  {loading ? "Creating account..." : "Create Account"}
+                  {loading ? "Creating account..." : "Create account"}
                 </Button>
 
                 <FieldDescription className="text-center">
-                  Already have an account?{" "}
+                  Already part of Chatly?{" "}
                   <a href="#/login" className="underline">
-                    Sign in
+                    Log in
                   </a>
                 </FieldDescription>
               </Field>
